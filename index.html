@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineVerse | Movies, Series & Anime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            --primary: #e50914;
+            --dark: #141414;
+            --light: #f5f5f5;
+            --gray: #808080;
+            --gold: #ffd700;
+            --korean: #ff4d4d;
+            --american: #4d88ff;
+            --chinese: #ffcc4d;
+            --anime: #cc66ff;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            --border-radius: 8px;
+        }
+
+        /* ===== Box Model Reset ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== Base Styles ===== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        /* ===== Header Styles ===== */
+        header {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* ===== Navigation ===== */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            height: 100vh;
+            min-height: 800px;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: transparent;
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* ===== Featured Section ===== */
+        .featured {
+            background-color: #0c0c0c;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+        }
+
+        /* ===== Category Tags ===== */
+        .category-tag {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .korean {
+            background-color: var(--korean);
+        }
+
+        .american {
+            background-color: var(--american);
+        }
+
+        .chinese {
+            background-color: var(--chinese);
+        }
+
+        .anime {
+            background-color: var(--anime);
+        }
+
+        /* ===== Content Cards ===== */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .content-card {
+            background: #1a1a1a;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .content-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .content-poster {
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .content-card:hover .content-poster img {
+            transform: scale(1.05);
+        }
+
+        .content-info {
+            padding: 25px;
+            position: relative;
+        }
+
+        .content-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .content-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .content-rating {
+            color: var(--gold);
+        }
+
+        .content-desc {
+            margin-bottom: 20px;
+            line-height: 1.7;
+            color: #ccc;
+        }
+
+        /* ===== Series Section ===== */
+        .series {
+            background: linear-gradient(to right, #0a0a0a, #1a1a1a);
+        }
+
+        /* ===== Anime Section ===== */
+        .anime-section {
+            background-color: var(--dark);
+        }
+
+        /* ===== Newsletter Section ===== */
+        .newsletter {
+            background: linear-gradient(to right, var(--primary), #b20710);
+            text-align: center;
+        }
+
+        .newsletter-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .newsletter h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .newsletter-btn {
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 0 30px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-btn:hover {
+            background: black;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: black;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .footer-about {
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            text-decoration: none;
+            color: white;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-input,
+            .newsletter-btn {
+                border-radius: var(--border-radius);
+                width: 100%;
+            }
+            
+            .newsletter-btn {
+                margin-top: 10px;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span class="logo-text">CineVerse</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#movies">Movies</a></li>
+                <li><a href="#series">Series</a></li>
+                <li><a href="#anime">Anime</a></li>
+                <li><a href="#newsletter">Newsletter</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Your Ultimate Entertainment Hub</h1>
+                <p class="hero-subtitle">Discover the best movies, TV series, and anime from around the world</p>
+                <a href="#movies" class="btn">Explore Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movies Section -->
+    <section id="movies" class="featured">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Movies</h2>
+                <p>Blockbuster hits from 2024</p>
+            </div>
+            
+            <div class="content-grid">
+                <!-- Movie 1 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/movies/Dune2.jpg" alt="Dune: Part Two">
+                    </div>
+                    <div class="content-info">
+                        <h3 class="content-title">Dune: Part Two</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.9/10
+                            </span>
+                        </div>
+                        <p class="content-desc">Paul Atreides unites with the Fremen to seek revenge against those who destroyed his family.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- Movie 2 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/movies/The Creator.jpg" alt="The Creator">
+                    </div>
+                    <div class="content-info">
+                        <h3 class="content-title">The Creator</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 7.6/10
+                            </span>
+                        </div>
+                        <p class="content-desc">Amidst a future war between humans and AI, a former soldier discovers a secret weapon.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- Movie 3 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/movies/Oppenheimer.webp" alt="Oppenheimer">
+                    </div>
+                    <div class="content-info">
+                        <h3 class="content-title">Oppenheimer</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.5/10
+                            </span>
+                        </div>
+                        <p class="content-desc">The story of American scientist J. Robert Oppenheimer and his role in developing the atomic bomb.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- Movie 4 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/movies/Killers of the Flower Moon.jpg" alt="Killers of the Flower Moon">
+                    </div>
+                    <div class="content-info">
+                        <h3 class="content-title">Killers of the Flower Moon</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 7.7/10
+                            </span>
+                        </div>
+                        <p class="content-desc">Members of the Osage tribe are murdered under mysterious circumstances in 1920s Oklahoma.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Series Section -->
+    <section id="series" class="series">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular TV Series</h2>
+                <p>Binge-worthy shows from around the world</p>
+            </div>
+            
+            <div class="content-grid">
+                <!-- Korean Drama 1 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/series/Squid Game.jpg" alt="Squid Game">
+                    </div>
+                    <div class="content-info">
+                        <span class="category-tag korean">Korean</span>
+                        <h3 class="content-title">Squid Game</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.8/10
+                            </span>
+                        </div>
+                        <p class="content-desc">Hundreds of cash-strapped players accept a strange invitation to compete in children's games.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- American Series 1 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/series/Stranger Things.jpg" alt="Stranger Things">
+                    </div>
+                    <div class="content-info">
+                        <span class="category-tag american">American</span>
+                        <h3 class="content-title">Stranger Things</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.7/10
+                            </span>
+                        </div>
+                        <p class="content-desc">When a young boy vanishes, a small town uncovers a mystery involving secret experiments.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- Chinese Drama 1 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/series/The Untamed.jpg" alt="The Untamed">
+                    </div>
+                    <div class="content-info">
+                        <span class="category-tag chinese">Chinese</span>
+                        <h3 class="content-title">The Untamed</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.9/10
+                            </span>
+                        </div>
+                        <p class="content-desc">Two soulmates discover their destiny through a series of adventures and tribulations.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- American Series 2 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/series/The Mandalorian.jpg" alt="The Mandalorian">
+                    </div>
+                    <div class="content-info">
+                        <span class="category-tag american">American</span>
+                        <h3 class="content-title">The Mandalorian</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.8/10
+                            </span>
+                        </div>
+                        <p class="content-desc">A lone gunfighter makes his way through the outer reaches of the galaxy.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Anime Section -->
+    <section id="anime" class="anime-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular Anime</h2>
+                <p>Top-rated anime series and movies</p>
+            </div>
+            
+            <div class="content-grid">
+                <!-- Anime 1 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/anime/Attack on Titan.jpg" alt="Attack on Titan">
+                    </div>
+                    <div class="content-info">
+                        <span class="category-tag anime">Anime</span>
+                        <h3 class="content-title">Attack on Titan</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 9.1/10
+                            </span>
+                        </div>
+                        <p class="content-desc">Humanity fights for survival against giant humanoid Titans that threaten to destroy civilization.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- Anime 2 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/anime/Demon Slayer.jpg" alt="Demon Slayer">
+                    </div>
+                    <div class="content-info">
+                        <span class="category-tag anime">Anime</span>
+                        <h3 class="content-title">Demon Slayer</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.7/10
+                            </span>
+                        </div>
+                        <p class="content-desc">A young boy becomes a demon slayer to avenge his family and cure his sister.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- Anime 3 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/anime/Jujutsu Kaisen.jpg" alt="Jujutsu Kaisen">
+                    </div>
+                    <div class="content-info">
+                        <span class="category-tag anime">Anime</span>
+                        <h3 class="content-title">Jujutsu Kaisen</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.6/10
+                            </span>
+                        </div>
+                        <p class="content-desc">A boy eats a cursed finger and becomes host to a powerful curse.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+                
+                <!-- Anime 4 -->
+                <article class="content-card">
+                    <div class="content-poster">
+                        <img src="images/anime/My Hero Academia.jpg" alt="My Hero Academia">
+                    </div>
+                    <div class="content-info">
+                        <span class="category-tag anime">Anime</span>
+                        <h3 class="content-title">My Hero Academia</h3>
+                        <div class="content-meta">
+                            <span class="content-year">2024</span>
+                            <span class="content-rating">
+                                <i class="fas fa-star"></i> 8.4/10
+                            </span>
+                        </div>
+                        <p class="content-desc">A boy born without superpowers in a superpowered world dreams of becoming a hero.</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section id="newsletter" class="newsletter">
+        <div class="container newsletter-container">
+            <h2>Join Our Entertainment Club</h2>
+            <p>Subscribe to get weekly updates on new releases, exclusive content, and special offers</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" class="newsletter-input" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- About Column -->
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <span class="footer-logo-text">CineVerse</span>
+                    </div>
+                    <p class="footer-about">
+                        Your ultimate destination for movies, TV series, and anime information, reviews, and showtimes.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Movies Column -->
+                <div class="footer-col">
+                    <h3 class="footer-title">Movies</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Now Playing</a></li>
+                        <li><a href="#">Coming Soon</a></li>
+                        <li><a href="#">Top Rated</a></li>
+                        <li><a href="#">Most Popular</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Series Column -->
+                <div class="footer-col">
+                    <h3 class="footer-title">TV Series</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Korean Dramas</a></li>
+                        <li><a href="#">American Series</a></li>
+                        <li><a href="#">Chinese Dramas</a></li>
+                        <li><a href="#">All Series</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Anime Column -->
+                <div class="footer-col">
+                    <h3 class="footer-title">Anime</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Popular Anime</a></li>
+                        <li><a href="#">New Releases</a></li>
+                        <li><a href="#">Movies</a></li>
+                        <li><a href="#">Genres</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 CineVerse. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                header.style.background = 'linear-gradient(to bottom, rgba(0,0,0,0.9), transparent)';
+            }
+        });
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Animation for content cards
+        const contentCards = document.querySelectorAll('.content-card');
+        contentCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        // Form submission
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for subscribing to our newsletter!');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
